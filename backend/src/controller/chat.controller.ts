@@ -6,7 +6,7 @@ export const createchat= async(req:Request,res:Response)=>{
  try {
     const userId=req.user?.userId
     const newchat=await chat.create({userId,name:"New Chat",userName:req.user?.name,messages:[]})
-    res.status(200).json({success:true,message:"A new chat has been created"})
+    res.status(200).json({success:true,message:"A new chat has been created",newchat})
  } catch (error:any) {
      res.status(500).json({ success: false, error: error.message });
  }

@@ -5,7 +5,7 @@ import { error } from "console";
 import usrouter from "./routes/user.route.js"
 import chatrouter from "./routes/chat.route.js";
 import cookieparser from "cookie-parser"
-import morgan from "morgan"
+import messagerouter from "./routes/message.route.js"
 import cors from "cors"
 
 const app=express()
@@ -13,13 +13,14 @@ const app=express()
 dotenv.config();
 app.use(cors())
 app.use(express.json())
-app.use(morgan("dev"))
+
 
 
 app.use(cookieparser())
 app.get("/", async (req,res)=>res.send("serve is live !!"))
 app.use("/api/user/",usrouter)
 app.use("/api/chat",chatrouter)
+app.use("/api/message",messagerouter)
 const port =process.env.PORT ||3000 
 const mongo = process.env.MONGO_URL
 
