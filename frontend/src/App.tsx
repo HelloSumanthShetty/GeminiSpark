@@ -1,33 +1,22 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import SideBar from './components/SideBar'
+import { Routes,Route } from 'react-router-dom'
+import Credits from './pages/Credits'
+import Community from './pages/Community'
+import ChatBot from './components/ChatBot'
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SideBar />
+      <Routes>
+          <Route path="/chatbot" element={<ChatBot />} />
+          <Route path="/credits" element={<Credits />} />
+          <Route path="/community" element={<Community />} />
+           
+      </Routes>
     </>
   )
 }
