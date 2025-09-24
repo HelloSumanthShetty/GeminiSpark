@@ -19,7 +19,7 @@ const chatschema=new mongoose.Schema({
             isPublished:{type:Boolean,default:false},
             role:{type:String,required:[true,"missing role"]},
             content:{type:String,required:[true,"missing content"]},
-            time:{type:Date ,required:[true,"missing timestamp"]}
+            time:{type:Number ,required:[true,"missing timestamp"]}
         }
     ]
 },{timestamps:true})

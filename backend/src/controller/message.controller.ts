@@ -68,7 +68,7 @@ export const textChatController = async (req: Request, res: Response) => {
         model: "gemini-2.5-flash-lite",
         history: myHistory,
         config :{
-          systemInstruction:"You are GooluluAI, a helpful AI assistant."
+          systemInstruction:"You are Gemini Spark, a helpful AI assistant."
         }
       });
     
@@ -107,7 +107,7 @@ export const imageMessageController = async (req: Request, res: Response) => {
       }
 
       const encodeURI = encodeURIComponent(prompt)
-      const generateImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodeURI}/GooluluAI/${Date.now()}.png?tr=w-400,h-300,fo-auto`
+      const generateImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodeURI}/Gemini Spark/${Date.now()}.png?tr=w-400,h-300,fo-auto`
 
 
       const aiImageResponse = await axios.get(generateImageUrl, { responseType: 'arraybuffer' })
@@ -117,8 +117,8 @@ export const imageMessageController = async (req: Request, res: Response) => {
       const base64Image = `data:image/png;base64,${base64String}`
       const uploadResponse = await Imagekit.upload({
         file: base64Image,
-        fileName: `${encodeURI}/GooluluAI/${Date.now()}.png`,
-        folder: "GooluluAI"
+        fileName: `${encodeURI}/Gemini Spark/${Date.now()}.png`,
+        folder: "Gemini Spark"
       })
       const replay = {
         role: "model",
@@ -141,7 +141,7 @@ export const imageMessageController = async (req: Request, res: Response) => {
     try {
       const userId = req.user?.userId
       const Images = await chatModel.aggregate([{ $unwind: "$messages" }, { $match: { "messages.isPublished": true, "messages.isImage": true } },
-      { $project: { _id: 0, ImageUrl: "$messages.content", userName: "$userName", time: "$messages.time" } }
+      { $project: { _id: 0, imageUrl: "$messages.content", userName: "$userName", time: "$messages.time" } }
       ])
       res.status(200).json({ success: true, Images })
     } catch (error: any) {
