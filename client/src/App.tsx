@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-    <div className='dark:bg-gradient-to-b from-[#242124] to-[#000000] dark:text-white'>
+    <div className='dark:bg-gradient-to-b font-dm from-[#242124] to-[#000000] dark:text-white'>
     <div className='flex min-h-screen w-screen '>
       <SideBar />
       <Routes>
