@@ -94,7 +94,7 @@ export const dummyChats = [
                 "isImage": false,
                 "isPublished": false,
                 "role": "user",
-                "content": "a boy running on water",
+                "content": "a boy running on water he fell into it and swimming in it",
                 "time": 1755178179612,
             },
             {
