@@ -52,7 +52,7 @@ export const signup = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const { name, email, password } = req.body;
+        const {  email, password } = req.body;
 
       
         const user = await userModel.findOne({ email });
@@ -72,7 +72,7 @@ export const login = async (req: Request, res: Response) => {
         );
 
         res.cookie("token", token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV === "production",
             maxAge: 7200000,
             sameSite: "strict"
@@ -97,6 +97,7 @@ export const getUser=async(req:Request,res:Response)=>{
         if(!user){
             return res.status(404).json({success:false,msg:"user not found"})   
         }
+        res.status(200).json({success:true,user:user})  
     }
     catch (error:any) {
         

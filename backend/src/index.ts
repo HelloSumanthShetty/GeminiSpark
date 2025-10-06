@@ -11,14 +11,20 @@ import cors from "cors"
 const app=express()
 
 dotenv.config();
-app.use(cors())
+app.use(cors(
+    {
+        origin:"http://localhost:5173",
+        credentials:true,
+        methods:["GET","POST","DELETE"]
+    }
+))
 app.use(express.json())
 
 
 
 app.use(cookieparser())
 app.get("/", async (req,res)=>res.send("serve is live !!"))
-app.use("/api/user/",usrouter)
+app.use("/api/user",usrouter)
 app.use("/api/chat",chatrouter)
 app.use("/api/message",messagerouter)
 const port =process.env.PORT ||3000 

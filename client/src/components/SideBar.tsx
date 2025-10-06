@@ -14,12 +14,12 @@ type props={
 const SideBar = (props: props) => {
   const { user, theme, settheme, setchats,setselectedChat, chats, navigate } = AppuseContext()
   const isAbove=useMedia("(min-width:800px)")
-  if(isAbove){
-    props.setisMenuOpen(true)
-  }
+  // if(isAbove){
+  //   props.setisMenuOpen(true)
+  // }
   const [search, setsearch] = useState("")
 
- console.log(props.isMenuOpen)
+ //console.log(props.isMenuOpen)
   return (
     <div className={` flex flex-col min-h-screen w-72 min-w-50  p-5 m-0 dark:bg-gradient-to-b  from-[#242124]/90 to-[#000000]/90 border-r border-[#8AB4F8] backdrop-blur-3xl transition-all duration-500  left-0 z-10 min-w-20-hidden    ${!props.isMenuOpen && 'max-md:-translate-x-full'}`}>
       <img src={theme === "light" ? assets.Gemini_spark : assets.Gemini_spark_dark} alt='' className='w-full  max-w-48' />
@@ -57,15 +57,7 @@ const SideBar = (props: props) => {
           <p>Community Images</p>
         </div>
       </div>
-      {/* Credits */}
-      <div onClick={() => { navigate("/credits");props.setisMenuOpen(false) }
-      } className='flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md cursor-pointer hover:scale-103 transition-all'>
-        <img src={assets.diamond_icon} className='w-4.5 dark:invert' alt="" />
-        <div className='flex flex-col text-sm'>
-          <p>Credits : {user?.credits}</p>
-          <p className='text-xs text-gray-500'>Purchase credits to use Gemini Spark</p>
-        </div>
-      </div>
+    
 
       {/* darkmode toggle */}
       <div className='flex items-center gap-2 p-3 mt-4 border border-gray-300 dark:border-white/15 rounded-md'>
