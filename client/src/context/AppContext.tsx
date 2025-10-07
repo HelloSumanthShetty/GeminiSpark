@@ -58,6 +58,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     } catch (error:any) {
       if(error.response?.data?.cookies===false){
         localStorage.removeItem("token");
+        navigate("/login");
       }
       else{
         toast.error("Something went wrong while fetching user");
@@ -85,6 +86,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     } catch (error:any) {
       if(error.response?.data?.cookies===false){
         localStorage.removeItem("token");
+        navigate("/login");
       }
       else{
       toast.error("Something went wrong while fetching chats");
@@ -94,8 +96,8 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
 
   const createNewChat = async () => {
     try {
-      //  if(!user) return toast.error("Please login to create a new chat");
-      navigate("/");
+        if(!user) return toast.error("Please login to create a new chat");
+      navigate("/chat");
       const { data } = await axios.post("/api/chat", {}, {
         withCredentials: true,
         headers: { 'Content-Type': 'application/json' }
@@ -106,6 +108,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     } catch (error:any) {
       if(error.response?.data?.cookies===false){
         localStorage.removeItem("token");
+        navigate("/login");
       }
       else{
       toast.error("Something went wrong while creating a new chat");

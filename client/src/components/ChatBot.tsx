@@ -99,7 +99,7 @@ const onSubmit=async(e:React.FormEvent)=>{
 
   <button disabled={Loading}>
     <img
-      src={Loading   ? assets.stop_icon : assets.send_icon}
+      src={Loading? assets.stop_icon : assets.send_icon}
       className="w-8 cursor-pointer"
       alt=""
     />

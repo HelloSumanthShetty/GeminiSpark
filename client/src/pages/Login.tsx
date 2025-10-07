@@ -10,27 +10,28 @@ const Login = (props: Props) => {
    const navigate=useNavigate()
    const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");
+    const [error, setError] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const {axios,setuser,setToken} = AppuseContext();
     const handleSubmit = async (e: React.FormEvent) => {  
         e.preventDefault();
-        const endpoint = state === "login" ? "/api/user/login" : "/api/user/signup";
+        const endpoint = state === "login" ? "/api/user/login" : "/api/user/register";
         const payload = state === "login" ? { email, password } : { name, email, password };
         try {
             const response = await axios.post(endpoint, payload, { withCredentials: true });
             const data = await response.data;
             if (data.success) {
-                navigate("/");  
                 localStorage.setItem("token",data.token);
                 setToken(data.token);
                 setuser({ _id: data.userId, name: data.username, email: data.useremail, password: "", credits: 20 });
-            } else {
-                toast.error(data.message);
+                navigate("/chat");  
             }
         }
-        catch (error) {
+        catch (error:any) {
             console.error("Error:", error);
+            toast.error("Something went wrong");
+            setError(error.response?.data?.error?.[0]?.msg || error.response?.data?.error || "Something went wrong");
         }
     }; 
     return (
@@ -52,6 +53,7 @@ const Login = (props: Props) => {
                 <p>Password</p>
                 <input id='password' name='password' onChange={(e) => setPassword(e.target.value)} value={password} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="password" required />
             </div>
+            {error && <p className='text-sm text-red-600 font-semibold'>{error}</p>}
             {state === "register" ? (
                 <p>
                     Already have account? <span onClick={() => setState("login")} className="text-indigo-500 cursor-pointer">click here</span>
