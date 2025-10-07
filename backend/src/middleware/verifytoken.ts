@@ -25,14 +25,14 @@ const jwtsecret=process.env.SECRET||""
         try {
             const token=req.cookies?.token
             if(!token){
-                return res.status(404).json("tokens are missing")
+                return res.status(404).json({message:"tokens are missing",cookies:false})
+
             }
-    
             const verify=jwt.verify(token,jwtsecret) as currentUser|JwtPayload
             req.user =verify
             next()
 
         } catch (error:any) {
-            res.status(401).json({error:error})
+           return res.status(401).json({error:error,cookies:false})
         }
     }

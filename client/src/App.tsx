@@ -16,7 +16,7 @@ import LoadingPage from './pages/Loading'
 
 
 function App() {
- const {user}=AppuseContext()
+ const {user,Token}=AppuseContext()
  console.log(user)
  const {pathname}=useLocation()
  if(pathname==="/loading") {
@@ -37,7 +37,7 @@ function App() {
 )}
 
       <Toaster position='top-center' reverseOrder={false} />
-    {user? (<div className='dark:bg-gradient-to-b min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
+    {Token? (<div className='dark:bg-gradient-to-b min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
     <div className='flex h-screen overflow-scroll w-screen'> 
       
       

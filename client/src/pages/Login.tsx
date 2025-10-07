@@ -1,16 +1,18 @@
 import { AppuseContext } from '../context/AppContext';
 import React from 'react'
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 
 type Props = {}
 
 const Login = (props: Props) => {
+   const navigate=useNavigate()
    const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const {axios,setuser} = AppuseContext();
+    const {axios,setuser,setToken} = AppuseContext();
     const handleSubmit = async (e: React.FormEvent) => {  
         e.preventDefault();
         const endpoint = state === "login" ? "/api/user/login" : "/api/user/signup";
@@ -19,7 +21,9 @@ const Login = (props: Props) => {
             const response = await axios.post(endpoint, payload, { withCredentials: true });
             const data = await response.data;
             if (data.success) {
-                window.location.href = "/";
+                navigate("/");  
+                localStorage.setItem("token",data.token);
+                setToken(data.token);
                 setuser({ _id: data.userId, name: data.username, email: data.useremail, password: "", credits: 20 });
             } else {
                 toast.error(data.message);
