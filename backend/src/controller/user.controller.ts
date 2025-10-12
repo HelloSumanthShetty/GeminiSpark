@@ -76,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
             secure:false,
             // secure: process.env.NODE_ENV === "production",
             maxAge: 7200000,
-            // sameSite: "lax"
+            sameSite: "none"
         });
 
         res.json({
