@@ -37,7 +37,7 @@ const start = async (): Promise<void> => {
         }
         await connectdb(mongo)
 
-        app.listen(port, () => console.log(`server is running on ${port}`))
+        app.listen(port,"0.0.0.0", () => console.log(`server is running on ${port}`))
     }
 
     catch (error) {
