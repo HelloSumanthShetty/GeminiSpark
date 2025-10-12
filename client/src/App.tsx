@@ -2,7 +2,6 @@ import { useState,useEffect } from 'react'
 import useMedia from './hooks/UseMedia'
 import SideBar from './components/SideBar'
 import { Routes,Route,useLocation ,Navigate} from 'react-router-dom'
-import Credits from './pages/Credits'
 import {AppuseContext} from './context/AppContext'
 import { assets } from './assets/assets'
 import  "./assets/prism.css"
@@ -58,7 +57,6 @@ if(pathname==="/login" && Token) {
       <Routes>
       
           <Route path="/chat" element={<ChatBot />} />
-          <Route path="/credits" element={<Credits />} />
           <Route path="/community" element={<Community />} />
            <Route path="*" element={<Navigate to={Token! ?  "/login":"/chat"} />} />
       </Routes>
