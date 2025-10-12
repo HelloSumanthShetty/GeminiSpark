@@ -4,9 +4,8 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 
-type Props = {}
 
-const Login = (props: Props) => {
+const Login = () => {
    const navigate=useNavigate()
    const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");

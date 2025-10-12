@@ -2,7 +2,6 @@ import { createContext, useState, useContext, useEffect } from "react"
 import type { Dispatch, SetStateAction } from "react"
 import type { NavigateFunction } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { dummyUserData, dummyChats } from "../assets/assets"
 import axios from "axios";
 import toast from "react-hot-toast";
 

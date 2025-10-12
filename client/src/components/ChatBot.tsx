@@ -9,12 +9,8 @@ type MessageType = {
   content: string
   timestamp: string
 }
-// type promptType = {
-//   prompt: string
-// }
-type Props = {}
 
-const ChatBot = (props: Props) => {
+const ChatBot = () => {
   const { theme, selectedChat,axios } = AppuseContext()
   const [messages, setMessages] = React.useState<MessageType[]>([])
   const [Loading, setLoading] = React.useState(false)

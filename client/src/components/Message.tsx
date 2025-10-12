@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { assets } from '../assets/assets'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'

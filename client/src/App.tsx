@@ -1,5 +1,4 @@
 import { useState,useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import useMedia from './hooks/UseMedia'
 import SideBar from './components/SideBar'
 import { Routes,Route,useLocation ,Navigate} from 'react-router-dom'

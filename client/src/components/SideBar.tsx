@@ -1,7 +1,6 @@
-import { useContext, useState,useEffect, use } from 'react'
+import { useState } from 'react'
 import type { Dispatch,SetStateAction } from 'react'
 import { AppuseContext } from '../context/AppContext'
-import useMedia from '../hooks/UseMedia'
 import { assets } from '../assets/assets'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -13,7 +12,7 @@ type props={
 }
 
 const SideBar = (props: props) => {
-  const { user, theme, axios, settheme, setchats, setToken, setuser, setselectedChat, chats, navigate, fetchUserChat, createNewChat } = AppuseContext()
+  const { user, theme, axios, settheme, setchats, setToken, setuser, setselectedChat, chats, navigate, createNewChat } = AppuseContext()
   const [search, setsearch] = useState("")
 
  async function logout() {

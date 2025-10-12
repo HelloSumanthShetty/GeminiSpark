@@ -1,10 +1,9 @@
-import React, { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { AppuseContext } from '../context/AppContext'
 import LoadingPage from './Loading'
-import  { Toaster } from 'react-hot-toast'
+import  toast from 'react-hot-toast'
 
 
-type Props = {}
 type PublishedImages = {
   imageUrl: string;
   userName: string;
@@ -22,9 +21,9 @@ const fetchImages=async()=>{
     if(data.success){
       console.log(data.newChat)
       setImages(data.newChat)
-
     }
   } catch (error) {
+    toast.error("Failed to fetch images")
     console.error(error)
   } finally {
     setLoading(false)
