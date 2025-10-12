@@ -49,12 +49,12 @@ import { GoogleGenAI } from "@google/genai"
 export const textChatController = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.userId
-    const { chatId, prompt } = req.body
+    const { chatId, prompt,isImage,isPublished } = req.body
     if (req.user?.credits < 1) {
       return res.status(403).json({ success: false, message: "Sorry the credits is Belove > 1" })
     }
     const chat = await chatModel.findOne({ userId, _id: chatId })
-    console.log(chat)
+    // console.log(chat)
 
     if (!chat) {
       return res.status(404).json({ success: false, message: "Chat not found" })
@@ -68,7 +68,7 @@ export const textChatController = async (req: Request, res: Response) => {
         model: "gemini-2.5-flash-lite",
         history: myHistory,
         config :{
-          systemInstruction:"You are Gemini Spark, a helpful AI assistant."
+          systemInstruction:"You are Gemini Spark, a helpful AI assistant. You are a Gemini wrapper created by Sumanth U Shetty. When asked about yourself, you must identify yourself as Gemini Spark and mention that you were created by him."
         }
       });
     
@@ -77,6 +77,7 @@ export const textChatController = async (req: Request, res: Response) => {
       });
       const replytext = response.text
       const reply = { role: "model", content: replytext, time: Date.now(), isImage: false }
+      chat.messages.push(reply)
       await chat?.save()
       await userModel.findOneAndUpdate({ _id: userId }, { $inc: { credits: -1 } })
       res.status(200).json({ success: true, reply })
@@ -100,14 +101,14 @@ export const imageMessageController = async (req: Request, res: Response) => {
         return res.status(400).json({ success: false, message: "Please provide all the details" })
       }
 
-
+     
       const chat = await chatModel.findOne({ userId, _id: chatId })
       if (!chat) {
         return res.status(404).json({ success: false, message: "Chat not found" })
       }
-
+    chat.messages.push({role:"user",content:prompt,time:Date.now(),isImage:true})
       const encodeURI = encodeURIComponent(prompt)
-      const generateImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodeURI}/Gemini Spark/${Date.now()}.png?tr=w-400,h-300,fo-auto`
+      const generateImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/ik-genimg-prompt-${encodeURI}/GeminiSpark/${Date.now()}.png?tr=w-400,h-300,fo-auto`
 
 
       const aiImageResponse = await axios.get(generateImageUrl, { responseType: 'arraybuffer' })
@@ -117,20 +118,20 @@ export const imageMessageController = async (req: Request, res: Response) => {
       const base64Image = `data:image/png;base64,${base64String}`
       const uploadResponse = await Imagekit.upload({
         file: base64Image,
-        fileName: `${encodeURI}/Gemini Spark/${Date.now()}.png`,
-        folder: "Gemini Spark"
+        fileName: `${encodeURI}/GeminiSpark/${Date.now()}.png`,
+        folder: "GeminiSpark"
       })
-      const replay = {
+      const reply = {
         role: "model",
         content: uploadResponse.url,
         time: Date.now(),
         isImage: true,
         isPublished
       }
-      chat.messages.push(replay)
+      chat.messages.push(reply)
       await chat.save()
       await userModel.findOneAndUpdate({ _id: userId }, { $inc: { credits: -2 } })
-      res.status(200).json({ success: true, replay })
+      res.status(200).json({ success: true, reply })
     } catch (error: any) {
       res.status(200).json({ success: false, error: error.message })
     }

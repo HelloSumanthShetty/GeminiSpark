@@ -3,11 +3,20 @@ import { AppuseContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import Message from './Message'
 
+type MessageType = {
+  role: string
+  isImage?: boolean
+  content: string
+  timestamp: string
+}
+// type promptType = {
+//   prompt: string
+// }
 type Props = {}
 
 const ChatBot = (props: Props) => {
-  const { theme, selectedChat } = AppuseContext()
-  const [messages, setMessages] = React.useState([])
+  const { theme, selectedChat,axios } = AppuseContext()
+  const [messages, setMessages] = React.useState<MessageType[]>([])
   const [Loading, setLoading] = React.useState(false)
   const [prompt, setPrompt] = React.useState("")
   const [isPublished, setIsPublished] = React.useState(false)
@@ -16,7 +25,33 @@ const ChatBot = (props: Props) => {
 
 const onSubmit=async(e:React.FormEvent)=>{
   e.preventDefault()
- 
+  if(!selectedChat){
+    return
+  }
+  try {
+    setLoading(true)
+    let type;
+    mode==='image'? type="image":type="text" 
+    setMessages(prev=>[...prev ,{role:"user",content:prompt,timestamp:new Date().toISOString(),isImage:mode==='image'? true:false}])
+    console.log(messages)
+    const res=await axios.post(`/api/message/${type}`,{
+      chatId:selectedChat._id,
+      prompt,
+      isPublished:isPublished
+    }, { withCredentials: true })
+    const data=await res.data 
+    if(data.success){
+      console.log(data)
+      setMessages(prev=>[...prev ,data?.reply]) 
+      console.log(messages)
+      setPrompt("")
+      setIsPublished(false)
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    setLoading(false)
+  }
 }
   
   useEffect(() => {
@@ -30,7 +65,7 @@ const onSubmit=async(e:React.FormEvent)=>{
     }
   }, [selectedChat])
   return (
-    <div className='flex-1 flex flex-col justify-between m-5 md:m-10 xl:mx-30 max-md:mt-14 2xl:pr-40'>
+    <div className='flex-1 flex flex-col justify-between m-5 md:m-10  xl:mx-15 max-md:mt-14 2xl:pr-40'>
       {/* Chat Messages */}
       <div ref={containerRef} className='flex-1 mb-5 overflow-y-scroll'>
         {messages.length === 0 && (
@@ -77,7 +112,7 @@ const onSubmit=async(e:React.FormEvent)=>{
 
 <form
   onSubmit={onSubmit}
-  className="bg-primary/20 dark:bg-[#583C79]/30 border border-primary dark:border-[#8069F1]/30 rounded-full w-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center"
+  className="bg-white dark:bg-neutral-800  border border-primary dark:border-[#8069F1]/30 rounded-full w-full max-w-2xl p-3 pl-4 mx-auto flex gap-4 items-center"
 >
   <select
     onChange={(e) => setMode(e.target.value)}
@@ -106,8 +141,6 @@ const onSubmit=async(e:React.FormEvent)=>{
   </button>
 </form>
 
-
-      
     </div>
   )
 

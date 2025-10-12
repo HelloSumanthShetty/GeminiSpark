@@ -24,7 +24,7 @@ const Login = (props: Props) => {
             if (data.success) {
                 localStorage.setItem("token",data.token);
                 setToken(data.token);
-                setuser({ _id: data.userId, name: data.username, email: data.useremail, password: "", credits: 20 });
+                setuser({ _id: data.userId, name: data.username, email: data.useremail, password: "", credits: 200 });
                 navigate("/chat");  
             }
         }

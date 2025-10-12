@@ -23,6 +23,8 @@ type AppContextType = {
   loadingUser: boolean;
   setToken: Dispatch<SetStateAction<string | null | undefined>>
   Token: string | null | undefined;
+  fetchUserChat: () => Promise<void>;
+  createNewChat: () => Promise<string | undefined>;
 };
 
 type fetchUserType = {
@@ -152,7 +154,7 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
 }, [Token]);
 
 
-  const value = { navigate, axios, setToken, Token, loadingUser, user, setuser, chats, setchats, selectedChat, setselectedChat, fetchUserChat, theme, settheme, fetchUser };
+  const value = { navigate, axios, createNewChat,fetchUserChat, setToken, Token, loadingUser, user, setuser, chats, setchats, selectedChat, setselectedChat, theme, settheme, fetchUser };
   return (
     <AppContext.Provider value={value}>
       {children}

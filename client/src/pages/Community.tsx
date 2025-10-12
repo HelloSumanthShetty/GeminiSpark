@@ -1,21 +1,35 @@
 import React, { useState, useEffect, use } from 'react'
-import { dummyPublishedImages } from '../assets/assets'
+import { AppuseContext } from '../context/AppContext'
+import LoadingPage from './Loading'
+import  { Toaster } from 'react-hot-toast'
+
 
 type Props = {}
-type dummyPublishedImages = {
+type PublishedImages = {
   imageUrl: string;
   userName: string;
 }
 const Community = () => {
-const [images, setImages] = useState<dummyPublishedImages[]>([])
+const [images, setImages] = useState<PublishedImages[]>([])
+const {axios}=AppuseContext()
 const [Loading, setLoading] = useState(true)
 
+const fetchImages=async()=>{
+  try {
+    setLoading(true)    
+    const res=await axios.get("/api/chat/community", { withCredentials: true })
+    const data=await res.data
+    if(data.success){
+      console.log(data.newChat)
+      setImages(data.newChat)
 
-
-const fetchImages = async () => {
-    setImages(dummyPublishedImages)
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
     setLoading(false)
-  }
+  }         
+}
 
   useEffect(() => {
     fetchImages()
@@ -23,12 +37,11 @@ const fetchImages = async () => {
 
 
   return (
-    <div className='p-6 pt-12 xl:px-12 2xl:px-20 w-full mx-auto h-full overflow-y-scroll'>
+    <div className='p-6 pt-12 xl:px-12 2xl:px-20 w-[90%] mx-auto h-full overflow-y-scroll'>
   <h2 className='text-xl font-semibold mb-6 text-gray-800 dark:text-purple-100'>
     Community Images:
   </h2>
-  
-  {images.length > 0 ? (
+  {!Loading &&images.length > 0 ?  (
     <div className='flex flex-wrap max-sm:justify-center gap-5'>
       {images.map((item, index) => (
         <a 
@@ -49,7 +62,7 @@ const fetchImages = async () => {
       ))}
     </div>
   ) : (
-   <></>
+   <><LoadingPage /></>
   )}
 </div>
 

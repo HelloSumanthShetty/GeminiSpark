@@ -6,8 +6,8 @@ const LoadingPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/');
-    }, 8000);
+      navigate('/chat');
+    }, 12000);
     return () => clearTimeout(timer);
   }, [navigate]);
   return (

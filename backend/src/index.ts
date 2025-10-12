@@ -27,7 +27,7 @@ app.get("/", async (req,res)=>res.send("serve is live !!"))
 app.use("/api/user",usrouter)
 app.use("/api/chat",chatrouter)
 app.use("/api/message",messagerouter)
-const port =process.env.PORT ||3000 
+const port = Number(process.env.PORT) || 3000
 const mongo = process.env.MONGO_URL
 
 const start = async (): Promise<void> => {

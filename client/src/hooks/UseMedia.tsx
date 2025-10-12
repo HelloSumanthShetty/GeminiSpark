@@ -7,10 +7,11 @@ const useMedia=(query:string)=>{
     useEffect(()=>{
       const media=window.matchMedia(query)
       if(media.matches!=Matches) setMatchs(media.matches)
+        console.log(media)
         const listeners=()=>setMatchs(media.matches)
      window.addEventListener("resize",listeners)
      return()=>window.removeEventListener("resize",listeners) 
-    },[Matches,query])  
+    },[query])  
     return Matches
 }
 

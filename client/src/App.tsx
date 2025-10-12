@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import useMedia from './hooks/UseMedia'
 import SideBar from './components/SideBar'
@@ -26,23 +26,33 @@ if(pathname==="/login" && Token) {
   return <LoginPage/>
 }
 
-  const [isMenuOpen, setisMenuOpen] = useState(false)
+  const [isMenuOpen, setisMenuOpen] = useState<boolean>(true)
   // const isAbove=useMedia("(min-width:800px)")
-   
+     const isAbove=useMedia("(min-width:400px)")
+ 
+     useEffect(() => {
+ 
+
+    if(!isAbove){
+     setisMenuOpen(false)
+  }
+  else{
+    setisMenuOpen(true)
+  }
+  }, [isAbove])
   return (
     <>
     {!isMenuOpen && Token && (
   <img
     src={assets.menu_icon}
-    className={`absolute top-3 left-3 w-8 h-8 cursor-pointer  not-dark:invert`}
+    className={`absolute top-3 z-10 left-3 w-8 h-8 cursor-pointer  not-dark:invert`}
     onClick={() => {
       setisMenuOpen(true)}}
   />
 )}
-
       <Toaster position='top-center' reverseOrder={false} />
-    {Token? (<div className='dark:bg-gradient-to-b min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
-    <div className='flex h-screen overflow-scroll w-screen'> 
+    {Token? (<div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
+    <div className='flex h-screen overflow-scroll w-screen absolute  bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px] ] '> 
       
       
       <SideBar  isMenuOpen={isMenuOpen} setisMenuOpen={setisMenuOpen}/>
@@ -51,7 +61,7 @@ if(pathname==="/login" && Token) {
           <Route path="/chat" element={<ChatBot />} />
           <Route path="/credits" element={<Credits />} />
           <Route path="/community" element={<Community />} />
-           <Route path="*" element={<Navigate to={Token ? "/chat" : "/login"} />} />
+           <Route path="*" element={<Navigate to={Token! ?  "/login":"/chat"} />} />
       </Routes>
       </div>
     </div>):(

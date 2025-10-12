@@ -24,15 +24,15 @@ const Message = (props: Props) => {
   return (
     <div>
       {message.role === "user" ? (
-        <div className='flex items-start justify-end my-4 gap-2'>
-          <div className='flex flex-col gap-2 p-2 px-4 bg-slate-50 dark:bg-[#57317C]/30 border border-[#80609F]/30 rounded-md max-w-2xl'>
+        <div className='flex z-10 items-start justify-end my-4 gap-2'>
+          <div className='flex flex-col gap-2 p-2 px-4 bg-slate-100 dark:bg-green-700 border border-[#80609F]/30 rounded-md max-w-2xl'>
             <p className='text-sm dark:text-primary'>{message.content}</p>
-            <span className='text-xs text-gray-400 dark:text-[#B1A6C0]'>{formattedTimestamp}</span>
+            <span className='text-xs text-gray-400  dark:text-[#B1A6C0]'>{formattedTimestamp}</span>
           </div>
           <img src={assets.user_icon} alt="" className='w-8 rounded-full' />
         </div>
       ) : (
-        <div className='inline-flex flex-col gap-2 p-1  max-w-2xl   bg-primary/20 dark:bg-[#57317C]/30 border border-[#80609F]/30 rounded-md my-4'>
+        <div className='inline-flex flex-col gap-2 p-1  max-w-2xl    bg-primary dark:bg-[#57317C] border border-[#80609F]/30 rounded-md my-4'>
           {message.isImage ? (
             <img
               src={message.content}
@@ -44,7 +44,7 @@ const Message = (props: Props) => {
               <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
           )}
-          <span className='text-xs text-gray-400 dark:text-[#B1A6C0]'>
+          <span className='text-xs pl-2 text-gray-400 dark:text-[#B1A6C0]'>
             {formattedTimestamp}
           </span>
         </div>

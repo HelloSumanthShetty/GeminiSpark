@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react'
+import { useContext, useState,useEffect, use } from 'react'
 import type { Dispatch,SetStateAction } from 'react'
 import { AppuseContext } from '../context/AppContext'
 import useMedia from '../hooks/UseMedia'
 import { assets } from '../assets/assets'
 import dayjs from 'dayjs'
 import relativeTime from "dayjs/plugin/relativeTime"
+import toast from 'react-hot-toast'
 dayjs.extend(relativeTime)
 type props={
   isMenuOpen:boolean,
@@ -12,18 +13,52 @@ type props={
 }
 
 const SideBar = (props: props) => {
-  const { user, theme, settheme, setchats,setselectedChat, chats, navigate } = AppuseContext()
-  const isAbove=useMedia("(min-width:800px)")
-  // if(isAbove){
-  //   props.setisMenuOpen(true)
-  // }
+  const { user, theme, axios, settheme, setchats, setToken, setuser, setselectedChat, chats, navigate, fetchUserChat, createNewChat } = AppuseContext()
   const [search, setsearch] = useState("")
 
+ async function logout() {
+   localStorage.removeItem("token")
+   localStorage.removeItem("theme")
+   const res= await axios.post("/api/user",{},{withCredentials:true})
+  const data= await res.data
+  if(data.success){
+  toast.success("Logged out successfully")
+   setuser(undefined)
+   setToken(undefined)
+   navigate("/login")
+  }
+  else{ 
+    toast.error("Some error occured")
+  }
+ }
+
+
+ async function deleteChat(chatId:string){
+  try {
+    console.log(chatId)
+    const confirm=window.confirm("Are you sure you want to delete this chat?")
+    if(!confirm) return
+    const res= await axios.delete(`/api/chat/${chatId}`,{withCredentials:true})
+    const data= await res.data
+    if(data.success){ 
+      toast.success("Chat deleted successfully")  
+      setchats(chats.filter((chat:any)=>chat._id!==data.newchat._id))
+      setselectedChat(undefined)
+    } 
+    else{
+      toast.error("Some error occured")
+    } 
+  } catch (error:any) {
+    toast.error(error.response?.data?.error || "Some error occured")
+  } 
+}   
  //console.log(props.isMenuOpen)
   return (
-    <div className={` flex flex-col min-h-screen w-72 min-w-50  p-5 m-0 dark:bg-gradient-to-b  from-[#242124]/90 to-[#000000]/90 border-r border-[#8AB4F8] backdrop-blur-3xl transition-all duration-500  left-0 z-10 min-w-20-hidden    ${props.isMenuOpen? 'max-md:-translate-x-full':"hidden"}`}>
+    <div className={` flex flex-col min-h-screen w-full sm:w-72 min-w-50  p-5 m-0 dark:bg-gradient-to-b  from-[#242124]/90 to-[#000000]/90 border-r border-[#8AB4F8] backdrop-blur-3xl transition-all duration-500  left-0 z-10 min-w-20-hidden    ${props.isMenuOpen? 'max-xs:-translate-x-full':"hidden"}`}>
       <img src={theme === "light" ? assets.Gemini_spark : assets.Gemini_spark_dark} alt='' className='w-full  max-w-48' />
-      <button className='flex justify-center items-center w-full py-2 mt-10 text-white bg-gradient-to-r from-[#a456f7] to-[#3d81f6] rounded-md cursor-pointer '>
+      <button className='flex justify-center items-center w-full py-2 mt-10 text-white bg-gradient-to-r from-[#a456f7] to-[#3d81f6] rounded-md cursor-pointer '
+      onClick={createNewChat}
+      >
         <span className='mr-2 text-2xl '>+</span>
         New Chat
       </button>
@@ -39,12 +74,12 @@ const SideBar = (props: props) => {
       <div className=' flex-1 overflow-y-scroll mt-3  text-sm space-y-3'>
         {
           chats?.filter((ct: any) => ct.messages[0] ? ct.messages[0]?.content.toLowerCase().includes(search.toLowerCase()) : ct.name.toLowerCase().includes(search.toLowerCase())).map((chat: any) => (
-            <div key={chat._id} onClick={() => { navigate(`/chat`) ; setselectedChat(chat) ; props.setisMenuOpen(false)  }} className='p-2 px-4 mx-1  dark:bg-[#57317c]/10 border border-gray-300 hover:scale-101 dark:border-[#4e90faff] rounded-2xl cursor-pointer flex justify-between group '>
+            <div key={chat._id} onClick={() => { navigate(`/chat`) ; setselectedChat(chat) ;   }} className='p-2 px-4 mx-1  dark:bg-[#57317c]/10 border border-gray-300 hover:scale-101 dark:border-[#4e90faff] rounded-2xl cursor-pointer flex justify-between group '>
               <div>
                 <p className='truncate w-full px-1 '>{chat.messages.length > 0 ? chat.messages[0]?.content.slice(0, 28) : chat.name} </p>
                 <p className='text-xs text-gray-500 dark:text-[#b1a6c0]'>{dayjs(chat.updatedAt).fromNow()}</p>
               </div>
-              <img src={assets.bin_icon} alt="bin Icon" className='hidden m-1 group-hover:block w-4 cursor-pointer not-dark:invert ' />
+              <img src={assets.bin_icon} onClick={() => deleteChat(chat?._id)} alt="bin Icon" className='hidden m-1 group-hover:block w-4 cursor-pointer not-dark:invert ' />
             </div>
           ))
         }
@@ -82,6 +117,7 @@ const SideBar = (props: props) => {
         {user && (
           <img
             src={assets.logout_icon}
+            onClick={logout}
             className='h-5 cursor-pointer hidden not-dark:invert group-hover:block'
           />
         )}
@@ -96,6 +132,7 @@ const SideBar = (props: props) => {
 
     </div>
   )
+  
 }
 
 export default SideBar
