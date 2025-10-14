@@ -25,7 +25,7 @@ Includes a **modern responsive UI**, **dark/light mode**, and **secure authentic
 
 ---
 
-## Setup Environment Variables
+# Setup Environment Variables
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
