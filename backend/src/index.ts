@@ -6,6 +6,7 @@ import usrouter from "./routes/user.route.js"
 import chatrouter from "./routes/chat.route.js";
 import cookieparser from "cookie-parser"
 import messagerouter from "./routes/message.route.js"
+import mediarouter from "./routes/media.route.js"
 import cors from "cors"
 
 const app=express()
@@ -27,6 +28,7 @@ app.get("/", async (req,res)=>res.send("serve is live !!"))
 app.use("/api/user",usrouter)
 app.use("/api/chat",chatrouter)
 app.use("/api/message",messagerouter)
+app.use("/api/media",mediarouter)
 const port = Number(process.env.PORT) || 3000
 const mongo = process.env.MONGO_URL
 

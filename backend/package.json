@@ -7,10 +7,12 @@
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\"  \"nodemon -q dist/index.js \" ",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@google/genai": "^1.19.0",
+    "@prisma/client": "^6.18.0",
     "@types/cors": "^2.8.19",
     "@types/morgan": "^1.9.10",
     "bcrypt": "^6.0.0",
@@ -23,7 +25,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.4",
     "morgan": "^1.10.1",
-    "openai": "^5.20.2"
+    "mysql2": "^3.15.3",
+    "openai": "^5.20.2",
+    "prisma": "^6.18.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -33,6 +38,7 @@
     "@types/node": "^24.0.15",
     "concurrently": "^9.2.0",
     "nodemon": "^3.1.10",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3"
   }
 }
