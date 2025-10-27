@@ -50,7 +50,16 @@ if(pathname==="/login" && Token) {
   />
 )}
       <Toaster position='top-center' reverseOrder={false} />
-    {Token? (<div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
+    {/* Media page is accessible without authentication */}
+    {pathname === "/media" ? (
+      <div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
+        <div className='flex h-screen overflow-scroll w-screen absolute bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px]'>
+          <Routes>
+            <Route path="/media" element={<MediaPage />} />
+          </Routes>
+        </div>
+      </div>
+    ) : Token ? (<div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
     <div className='flex h-screen overflow-scroll w-screen absolute  bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px] ] '> 
       
       
