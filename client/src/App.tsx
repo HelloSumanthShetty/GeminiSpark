@@ -39,6 +39,11 @@ if(pathname==="/login" && Token) {
     setisMenuOpen(true)
   }
   }, [isAbove])
+  
+  // Common container styling
+  const containerClasses = 'dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white';
+  const innerContainerClasses = 'flex h-screen overflow-scroll w-screen absolute bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px]';
+  
   return (
     <>
     {!isMenuOpen && Token && (
@@ -52,15 +57,15 @@ if(pathname==="/login" && Token) {
       <Toaster position='top-center' reverseOrder={false} />
     {/* Media page is accessible without authentication */}
     {pathname === "/media" ? (
-      <div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
-        <div className='flex h-screen overflow-scroll w-screen absolute bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px]'>
+      <div className={containerClasses}>
+        <div className={innerContainerClasses}>
           <Routes>
             <Route path="/media" element={<MediaPage />} />
           </Routes>
         </div>
       </div>
-    ) : Token ? (<div className='dark:bg-gradient-to-b relative min-h-screen overflow-hidden font-dm from-[#242124] to-[#000000] dark:text-white'>
-    <div className='flex h-screen overflow-scroll w-screen absolute  bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_14px] ] '> 
+    ) : Token ? (<div className={containerClasses}>
+    <div className={innerContainerClasses}> 
       
       
       <SideBar  isMenuOpen={isMenuOpen} setisMenuOpen={setisMenuOpen}/>
