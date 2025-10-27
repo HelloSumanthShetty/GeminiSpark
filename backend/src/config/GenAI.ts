@@ -2,21 +2,14 @@ import { GoogleGenAI } from "@google/genai";
 import "dotenv/config"
 
 const Gemini_key=process.env.GEMINI_API_KEY ||""
-const GenAi = new GoogleGenAI({
-    apiKey:Gemini_key,
-});
 
+let GenAi: GoogleGenAI | null = null;
 
-export default GenAi
+// Only initialize GenAI if API key is provided
+if (Gemini_key) {
+    GenAi = new GoogleGenAI({
+        apiKey:Gemini_key,
+    });
+}
 
-// import { OpenAI } from "openai/client.js";
-// import "dotenv/config"
-
-// const Gemini_key=process.env.GEMINI_API_KEY ||""
-// const GenAi = new OpenAI({
-//     apiKey:Gemini_key,
-//     baseURL:"https://generativelanguage.googleapis.com/v1beta/openai/"
-// });
-
-
-// export default GenAi    
+export default GenAi    

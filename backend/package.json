@@ -5,9 +5,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"npx tsc --watch\"  \"nodemon -q dist/index.js \" ",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\"  \"nodemon -q dist/src/index.js \" ",
+    "build": "tsc && mkdir -p dist/src/generated && cp -r src/generated/prisma dist/src/generated/",
+    "start": "node dist/src/index.js",
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {

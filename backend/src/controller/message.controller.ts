@@ -64,6 +64,13 @@ export const textChatController = async (req: Request, res: Response) => {
   role: mes.role,
   parts: [{ text: mes.content }]
 }))
+      if (!GenAi) {
+        return res.status(503).json({
+          success: false,
+          message: "Gemini API is not configured"
+        });
+      }
+      
       const allChat = GenAi.chats.create({
         model: "gemini-2.5-flash-lite",
         history: myHistory,
@@ -116,6 +123,13 @@ export const imageMessageController = async (req: Request, res: Response) => {
       const imageBuffer = Buffer.from(aiImageResponse.data, 'binary')
       const base64String = imageBuffer.toString('base64')
       const base64Image = `data:image/png;base64,${base64String}`
+      if (!Imagekit) {
+        return res.status(503).json({
+          success: false,
+          message: "ImageKit is not configured"
+        });
+      }
+      
       const uploadResponse = await Imagekit.upload({
         file: base64Image,
         fileName: `${encodeURI}/GeminiSpark/${Date.now()}.png`,

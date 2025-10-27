@@ -7,6 +7,7 @@ import { assets } from './assets/assets'
 import  "./assets/prism.css"
 import Community from './pages/Community'
 import ChatBot from './components/ChatBot'
+import MediaPage from './pages/Media'
 import  { Toaster } from 'react-hot-toast'
 import LoginPage from './pages/Login'
 import LoadingPage from './pages/Loading'
@@ -58,6 +59,7 @@ if(pathname==="/login" && Token) {
       
           <Route path="/chat" element={<ChatBot />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/media" element={<MediaPage />} />
            <Route path="*" element={<Navigate to={Token! ?  "/login":"/chat"} />} />
       </Routes>
       </div>
